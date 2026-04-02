@@ -1,15 +1,16 @@
-# When you publish a GitHub Release, attach a ready-to-drop-in zip of addons/savestate/
+# Publishes savestate-lite-<tag>.zip (contents: addons/savestate/) when you publish a GitHub Release.
 name: Release Lite ZIP
 
 on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   zip-lite:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4

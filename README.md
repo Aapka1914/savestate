@@ -15,7 +15,7 @@ Godot projects often start with ad-hoc `FileAccess` writes. That becomes painful
 
 **Technical challenges baked in:** careful ordering with temp files and rename for atomicity; keeping async Pro saves safe by **snapshotting on the main thread** before `WorkerThreadPool` I/O (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)); and editor/plugin ordering so Lite loads before Pro when both are enabled.
 
-**About the code:** Parts were drafted with AI assistance; the architecture, file format, threading boundaries, and behavior were **manually** reviewed, exercised, and debugged across many hours against real Godot 4.x editor and export runs. Treat it like any dependency: read the architecture notes, run the sample, and verify in your project.
+See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ---
 
