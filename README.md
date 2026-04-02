@@ -59,6 +59,7 @@ var data = SaveManager.load_from_slot_sync(&"slot_1")
 | File | What it's for |
 |------|---------------|
 | [QUICKSTART.md](QUICKSTART.md) | Step-by-step: dock, Config tab, Pro extras |
-| [CHANGELOG.md](CHANGELOG.md) | What changed each version |
+
+**Releases:** each [GitHub Release](https://github.com/youssof20/savestate/releases) includes a **`savestate-lite-<tag>.zip`** you can unzip into your project (contains `addons/savestate/`). For smaller day-to-day changes, use [commits](https://github.com/youssof20/savestate/commits/main/) on `main`.
 
 Enjoy the saves.
