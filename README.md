@@ -333,7 +333,7 @@ var h := SaveManager.debug_health_for_path(path)
 
 ## Pro version
 
-SaveState Pro builds on this Lite addon. It swaps the autoload script for `pro_manager.gd`, adds async save and load on a worker thread, AES-256 plus HMAC encryption with one-click key generation in Project Settings, viewport thumbnail capture next to save files, a **Save Browser** dock with Explorer, Data, and Config tabs, live data editing while the game runs with debugger support, a **Saveable** inspector with checkbox UI for parent properties, and a **Quick Setup** entry in the editor tool menu. Pro is **$9.99** at launch: [https://chuumberry.itch.io/savestate-pro](https://chuumberry.itch.io/savestate-pro)
+SaveState Pro builds on this Lite addon. It swaps the autoload script for `pro_manager.gd`, adds async save and load on a worker thread, AES-256 plus HMAC encryption with one-click key generation in Project Settings, viewport thumbnail capture next to save files, a **Save Browser** dock with Explorer, Data, and Config tabs, live data editing while the game runs with debugger support, a **Saveable** inspector with checkbox UI for parent properties, and a **Quick Setup** entry in the editor tool menu. Details and purchase: [https://chuumberry.itch.io/savestate-pro](https://chuumberry.itch.io/savestate-pro)
 
 ## Godot version support
 
