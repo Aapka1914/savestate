@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- **Lite:** `save_manager.gd` no longer references Pro-only `SaveSecurity`. Encrypted-save inspection for the Save Browser uses `addons/savestate/encrypted_save_reader.gd`, so pure Lite projects (including `samples/minimal-demo/`) compile again.
+
 ## 1.1.0
 
 - **Starter sample:** `samples/minimal-demo/` — small Godot project (move, gold, Save/Load). Open that folder as a project to try the addon.

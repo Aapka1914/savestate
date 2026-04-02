@@ -18,6 +18,7 @@ signal migration_required(old_schema_version: int, new_schema_version: int)
 
 const FLAG_JSON: int = 1
 const FORMAT_VERSION: int = 1
+const _EncryptedSaveReader := preload("res://addons/savestate/encrypted_save_reader.gd")
 
 const SETTING_SCHEMA_VERSION := "savestate/current_version"
 ## Reserved slot for [method set_value] / [method get_value] / [method persist]. Avoid using [code]slot_0[/code] for unrelated data, or call [method clear_kv_cache] first.
@@ -449,16 +450,16 @@ func debug_health_for_path(path: String) -> Dictionary:
 	out["format_version"] = int(h.get("format_version", 0))
 	out["flags"] = int(h.get("flags", 0))
 	out["schema_version"] = int(h.get("schema_version", 0))
-	out["encrypted_outer"] = int(out["format_version"]) == int(SaveSecurity.OUTER_FORMAT_VERSION)
+	out["encrypted_outer"] = int(out["format_version"]) == int(_EncryptedSaveReader.OUTER_FORMAT_VERSION)
 
 	var processed := raw
 	if bool(out["encrypted_outer"]):
 		var keys := _get_debug_crypto_keys()
 		var aes: PackedByteArray = keys.get("aes", PackedByteArray()) as PackedByteArray
 		var hmac: PackedByteArray = keys.get("hmac", PackedByteArray()) as PackedByteArray
-		out["keys_present"] = aes.size() == int(SaveSecurity.AES_KEY_SIZE) and not hmac.is_empty()
+		out["keys_present"] = aes.size() == int(_EncryptedSaveReader.AES_KEY_SIZE) and not hmac.is_empty()
 		if bool(out["keys_present"]):
-			var opened := SaveSecurity.open_outer_save_file(raw, aes, hmac)
+			var opened: Dictionary = _EncryptedSaveReader.open_outer_save_file(raw, aes, hmac)
 			var verr := int(opened.get("error", ERR_FILE_CORRUPT))
 			out["verify_error"] = verr
 			out["verified"] = verr == OK
