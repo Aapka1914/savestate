@@ -15,7 +15,7 @@ Godot projects often start with ad-hoc `FileAccess` writes. That becomes painful
 
 **Technical challenges baked in:** careful ordering with temp files and rename for atomicity; keeping async Pro saves safe by **snapshotting on the main thread** before `WorkerThreadPool` I/O (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)); and editor/plugin ordering so Lite loads before Pro when both are enabled.
 
-See [CHANGELOG.md](CHANGELOG.md) for version history.
+See [CHANGELOG.md](CHANGELOG.md) — each version lists **Lite** (this repo) and **Pro** ([itch.io](https://chuumberry.itch.io/savestate-pro)) separately.
 
 ---
 
